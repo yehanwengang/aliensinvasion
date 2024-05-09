@@ -44,6 +44,7 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
             # print(len(self.bullets))
+
     def _check_events(self):
         # 侦听键盘和鼠标事件
         for event in pygame.event.get():
