@@ -32,18 +32,17 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.ship.update()
-            self._check_bullets()
+            self._update_bullets()
             self._update_screen()
             self.clock.tick(60)
 
-    def _check_bullets(self):
-        # 更新子弹的位置
+    def _update_bullets(self):
+        """更新子弹的位置，并删除已消失的子弹"""
         self.bullets.update()
         # 删除已消失的子弹
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
-            # print(len(self.bullets))
 
     def _check_events(self):
         # 侦听键盘和鼠标事件
@@ -61,10 +60,10 @@ class AlienInvasion:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
-        elif event.key == pygame.K_q:
-            sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+        elif event.key == pygame.K_q:
+            sys.exit()
 
     def _check_keyup_events(self, event):
         # 响应释放
@@ -79,12 +78,14 @@ class AlienInvasion:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
 
+
+
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
-        self.ship.blitme()
         # 让最近绘制的屏幕可见
+        self.ship.blitme()
         pygame.display.flip()
 
 
